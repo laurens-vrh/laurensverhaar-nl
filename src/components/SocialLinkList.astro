@@ -1,0 +1,33 @@
+---
+import SocialLink from "./SocialLink.astro";
+export interface Props {
+    isCollapsed?: "true" | "false";
+}
+
+const { isCollapsed } = Astro.props;
+---
+
+<ul data-collapsed={isCollapsed}>
+    <li>
+        <SocialLink icon="/github.png" name="GitHub" link="https://github.com/laurens-vrh" isCollapsed={isCollapsed} />
+    </li>
+    <li>
+        <SocialLink icon="/discord.png" name="Discord" link="https://discord.com/users/873128744582254643" isCollapsed={isCollapsed} />
+    </li>
+    <li>
+        <SocialLink icon="/mail.png" name="E-mail" link="mailto:ik@laurensverhaar.nl" isCollapsed={isCollapsed} />
+    </li>
+</ul>
+<style>
+    ul {
+        display: flex;
+        justify-content: space-between;
+    }
+    ul:not([data-collapsed="true"]) {
+        width: min(calc(100vw - 2rem), 30rem);
+    }
+
+    ul[data-collapsed="true"] {
+        gap: 1rem;
+    }
+</style>

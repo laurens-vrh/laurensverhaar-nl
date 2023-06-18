@@ -1,0 +1,144 @@
+---
+import Project from "../components/Project.astro";
+import SocialLinkList from "../components/SocialLinkList.astro";
+import Layout from "../layouts/Layout.astro";
+
+const projects = (await Astro.glob("./projects/*.md")).sort((a, b) => a.frontmatter.itemId - b.frontmatter.itemId).reverse();
+---
+
+<Layout>
+	<main>
+		<div class="intro">
+			<div class="name">
+				<h1>Laurens Verhaar</h1>
+				<p>@laurens.vrh</p>
+			</div>
+			<div class="social-links">
+				<SocialLinkList />
+			</div>
+		</div>
+		<div class="projects">
+			<h2>Projects</h2>
+			<ul>
+				{
+					projects.map((project, i) => {
+						const { color, title, description, links, tags, image } = project.frontmatter;
+						return <Project color={color} image={image} title={title} description={description} links={links} tags={tags} textFirst={i % 2 === 0} />;
+					})
+				}
+			</ul>
+		</div>
+		<div class="footer">
+			<SocialLinkList isCollapsed="true" />
+			<p>Laurens Verhaar ©️ {new Date().getFullYear()}</p>
+		</div>
+	</main>
+</Layout>
+
+<style>
+	.intro {
+		--background-color: #464646;
+		height: 100vh;
+
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background-color: #131313;
+	}
+
+	.intro[data-background="squares"] {
+		background-size: 50px 50px;
+
+		background-image: linear-gradient(45deg, transparent 0%, transparent 49.99%, var(--background-color) 50%, transparent 50.01%, transparent 100%), linear-gradient(135deg, transparent 0%, transparent 49.99%, var(--background-color) 50%, transparent 50.01%, transparent 100%);
+	}
+
+	.intro[data-background="dots"] {
+		background-size: 40px 40px;
+		background-image: radial-gradient(circle, var(--background-color) 1px, rgba(0, 0, 0, 0) 1px);
+	}
+	.intro[data-background="plusses"] {
+		background-size: 40px 40px;
+
+		background-image: url("/plus.svg");
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.intro {
+			background-position: var(--background-position);
+		}
+	}
+
+	.name {
+		text-align: center;
+	}
+
+	.name h1 {
+		font-weight: bold;
+		font-size: var(--fs-5);
+
+		color: var(--clr-accent);
+	}
+
+	.name p {
+		font-size: var(--fs-1);
+	}
+
+	.social-links {
+		position: absolute;
+
+		bottom: 1rem;
+	}
+
+	.projects {
+		margin-inline: auto;
+		margin-block: 3rem;
+		padding: 1rem;
+	}
+
+	.projects ul {
+		display: grid;
+		gap: 3rem;
+	}
+
+	.projects h2 {
+		text-align: center;
+
+		font-size: var(--fs-4);
+		font-weight: 500;
+	}
+
+	.footer {
+		background-color: #131313;
+		padding: 1rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.projects {
+		max-width: 1250px;
+	}
+</style>
+
+<script>
+	const introElement: null | HTMLDivElement = document.querySelector(".intro");
+	const backgrounds = ["squares", "dots", "plusses"];
+
+	var currentBackground = Math.floor(Math.random() * backgrounds.length);
+	updateBackground();
+	introElement?.addEventListener("click", (event) => {
+		currentBackground++;
+		updateBackground();
+	});
+
+	function updateBackground() {
+		introElement?.setAttribute("data-background", backgrounds[currentBackground % backgrounds.length]);
+	}
+
+	introElement?.addEventListener("mousemove", (event: MouseEvent) => {
+		const mouseX = event.clientX / (window.innerWidth / 5);
+		const mouseY = event.clientY / (window.innerHeight / 5);
+
+		introElement.style.setProperty("--background-position", `-${mouseX}% -${mouseY}%`);
+	});
+</script>

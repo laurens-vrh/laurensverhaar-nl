@@ -1,0 +1,89 @@
+---
+export interface Props {
+	title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Developer" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title ? title + "- " : ""}Laurens Verhaar</title>
+
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-082XDF2HKE"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag("js", new Date());
+
+			gtag("config", "G-082XDF2HKE");
+		</script>
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--clr-neutral-100: white;
+		--clr-accent: #ff5c5c;
+
+		--fs--2: clamp(0.78rem, calc(0.77rem + 0.03vw), 0.8rem);
+		--fs--1: clamp(0.94rem, calc(0.92rem + 0.11vw), 1rem);
+		--fs-0: clamp(1.13rem, calc(1.08rem + 0.22vw), 1.25rem);
+		--fs-1: clamp(1.35rem, calc(1.28rem + 0.37vw), 1.56rem);
+		--fs-2: clamp(1.62rem, calc(1.5rem + 0.58vw), 1.95rem);
+		--fs-3: clamp(1.94rem, calc(1.77rem + 0.87vw), 2.44rem);
+		--fs-4: clamp(2.33rem, calc(2.08rem + 1.25vw), 3.05rem);
+		--fs-5: clamp(2.8rem, calc(2.45rem + 1.77vw), 3.82rem);
+	}
+
+	html {
+		box-sizing: border-box;
+		font-size: 16px;
+
+		color-scheme: dark;
+	}
+
+	*,
+	*:before,
+	*:after {
+		box-sizing: inherit;
+	}
+
+	body,
+	h1,
+	h2,
+	h3,
+	ol,
+	ul {
+		margin: 0;
+		padding: 0;
+	}
+
+	ol,
+	ul {
+		list-style: none;
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+
+	body {
+		font-family: system-ui, sans-serif;
+
+		background-color: #1a1a1a;
+	}
+</style>

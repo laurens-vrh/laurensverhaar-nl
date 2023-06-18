@@ -1,0 +1,127 @@
+---
+import Wave from "./Wave.astro";
+
+export interface Props {
+    color: string;
+    image: string;
+    title: string;
+    description: string;
+    links: Array<{ url: string; name: string }>;
+    tags: Array<string>;
+    textFirst?: boolean;
+}
+
+const { color, image, title, description, links, tags, textFirst = false } = Astro.props;
+---
+
+<li data-textfirst={textFirst}>
+    <img src={image} alt="" />
+    <div class="info">
+        <Wave color={color} />
+        <h3>{title}</h3>
+        <p>{description}</p>
+        <div class="links">
+            {
+                links.map(({ url, name }, idx) => (
+                    <>
+                        <a class="link" href={url} target="_blank" rel="noopener noreferrer">
+                            <span>{name}</span>
+                        </a>
+                        {idx + 1 < links.length ? "-" : ""}
+                    </>
+                ))
+            }
+        </div>
+        <div class="tags">
+            {tags.map((tag) => <span>{tag}</span>)}
+        </div>
+    </div>
+    <img src={image} alt="" />
+</li>
+
+<style define:vars={{ color }}>
+    h3 {
+        font-size: var(--fs-3);
+        font-weight: bold;
+    }
+
+    p {
+        margin-top: 0.5rem;
+        font-size: var(--fs-0);
+    }
+
+    a.link {
+        text-decoration: none;
+        color: var(--clr-neutral-100);
+    }
+    a.link span {
+        position: relative;
+        font-size: var(--fs-0);
+    }
+    a.link span:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        bottom: -1px;
+        left: 0;
+        background: var(--color);
+    }
+
+    .tags {
+        margin-top: 1rem;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .tags span {
+        margin-right: 0.5rem;
+        padding: 0.25rem;
+        border-radius: 0.25rem;
+
+        background-color: var(--color);
+    }
+
+    img {
+        display: block;
+        margin-inline: auto;
+        margin-top: 1rem;
+        max-height: 40vh;
+    }
+
+    li img:first-child {
+        display: none;
+    }
+    li img:last-child {
+        display: block;
+    }
+
+    @media (min-width: 1000px) {
+        a.link span:after {
+            transform: scaleX(0);
+            opacity: 0;
+
+            transform-origin: center left;
+            transition: all 250ms ease-out;
+        }
+        a.link:hover span:after {
+            transform: scaleX(1);
+            opacity: 1;
+        }
+
+        li {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        li[data-textfirst] img:first-child {
+            display: none;
+        }
+        li:not([data-textfirst]) img:first-child {
+            display: block;
+        }
+        li:not([data-textfirst]) img:last-child {
+            display: none;
+        }
+    }
+</style>

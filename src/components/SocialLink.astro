@@ -1,0 +1,61 @@
+---
+export interface Props {
+    icon: string;
+    name: string;
+    link: string;
+    isCollapsed?: "true" | "false";
+}
+
+const { icon, name, link, isCollapsed } = Astro.props;
+---
+
+<a href={link} target="_blank" rel="noopener noreferrer">
+    <img src={icon} alt="" />
+    {isCollapsed ? "" : <span>{name}</span>}
+</a>
+
+<style>
+    a {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        text-decoration: none;
+        color: var(--clr-neutral-100);
+    }
+
+    span {
+        position: relative;
+    }
+    span:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        bottom: -1px;
+        left: 0;
+        background: var(--clr-accent);
+    }
+
+    @media (min-width: 1000px) {
+        span:after {
+            transform: scaleX(0);
+            opacity: 0;
+
+            transform-origin: center left;
+            transition: all 250ms ease-out;
+        }
+        a:hover span:after {
+            transform: scaleX(1);
+            opacity: 1;
+        }
+    }
+
+    span {
+        font-size: var(--fs-0);
+    }
+    img {
+        width: 35px;
+        filter: invert(49%) sepia(46%) saturate(3199%) hue-rotate(327deg) brightness(107%) contrast(104%); /* https://codepen.io/sosuke/pen/Pjoqqp */
+    }
+</style>
