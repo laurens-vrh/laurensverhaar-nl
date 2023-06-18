@@ -4,17 +4,28 @@ export interface Props {
 }
 
 const { title } = Astro.props;
+
+const accentColor = "#ff5c5c";
 ---
 
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="description" content="Developer" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title ? title + "- " : ""}Laurens Verhaar</title>
+
+		<meta name="title" content="Laurens Verhaar" />
+		<meta name="description" content="Socials and project portfolio." />
+
+		<meta property="og:title" content="Laurens Verhaar" />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://laurensverhaar.nl" />
+		<meta property="og:image" content="https://laurensverhaar.nl/thumb.png" />
+		<meta property="og:description" content="Socials and project portfolio." />
+		<meta name="theme-color" content={accentColor} />
 
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-082XDF2HKE"></script>
@@ -33,10 +44,10 @@ const { title } = Astro.props;
 	</body>
 </html>
 
-<style is:global>
+<style is:global define:vars={{ accentColor }}>
 	:root {
 		--clr-neutral-100: white;
-		--clr-accent: #ff5c5c;
+		--clr-accent: var(--accentColor);
 
 		--fs--2: clamp(0.78rem, calc(0.77rem + 0.03vw), 0.8rem);
 		--fs--1: clamp(0.94rem, calc(0.92rem + 0.11vw), 1rem);
