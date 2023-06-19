@@ -27,6 +27,15 @@ const { icon, name, link, isCollapsed } = Astro.props;
     span {
         position: relative;
     }
+    span:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        bottom: -1px;
+        left: 0;
+        background: var(--clr-neutral-100);
+    }
     span:after {
         content: "";
         position: absolute;
