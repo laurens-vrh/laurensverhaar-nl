@@ -11,7 +11,15 @@ export interface Props {
     textFirst?: boolean;
 }
 
-const { color, image, title, description, links, tags, textFirst = false } = Astro.props;
+const {
+    color,
+    image,
+    title,
+    description,
+    links,
+    tags,
+    textFirst = false
+} = Astro.props;
 ---
 
 <li data-textfirst={textFirst}>
@@ -27,7 +35,12 @@ const { color, image, title, description, links, tags, textFirst = false } = Ast
             {
                 links.map(({ url, name }, idx) => (
                     <>
-                        <a class="link" href={url} target="_blank" rel="noopener noreferrer">
+                        <a
+                            class="link"
+                            href={url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
                             <span>{name}</span>
                         </a>
                         {idx + 1 < links.length ? "-" : ""}
@@ -107,15 +120,14 @@ const { color, image, title, description, links, tags, textFirst = false } = Ast
 
     @media (min-width: 1000px) {
         a.link span:after {
-            transform: scaleX(0);
-            opacity: 0;
+            scale: 0 1;
 
-            transform-origin: center left;
-            transition: all 250ms ease-out;
+            transform-origin: right;
+            transition: scale 200ms ease-in;
         }
         a.link:hover span:after {
-            transform: scaleX(1);
-            opacity: 1;
+            transform-origin: left;
+            scale: 1 1;
         }
 
         li {
