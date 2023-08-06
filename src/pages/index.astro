@@ -3,7 +3,9 @@ import Project from "../components/Project.astro";
 import SocialLinkList from "../components/SocialLinkList.astro";
 import Layout from "../layouts/Layout.astro";
 
-const projects = (await Astro.glob("./projects/*.md")).sort((a, b) => a.frontmatter.itemId - b.frontmatter.itemId).reverse();
+const projects = (await Astro.glob("./projects/*.md"))
+	.sort((a, b) => a.frontmatter.itemId - b.frontmatter.itemId)
+	.reverse();
 ---
 
 <Layout>
@@ -22,15 +24,28 @@ const projects = (await Astro.glob("./projects/*.md")).sort((a, b) => a.frontmat
 			<ul>
 				{
 					projects.map((project, i) => {
-						const { color, title, description, links, tags, image } = project.frontmatter;
-						return <Project color={color} image={image} title={title} description={description} links={links} tags={tags} textFirst={i % 2 === 0} />;
+						const { color, title, description, links, tags, image } =
+							project.frontmatter;
+						return (
+							<Project
+								color={color}
+								image={image}
+								title={title}
+								description={description}
+								links={links}
+								tags={tags}
+								textFirst={i % 2 === 0}
+							/>
+						);
 					})
 				}
 			</ul>
 		</div>
 		<div class="footer">
-			<SocialLinkList isCollapsed="true" />
-			<p>Laurens Verhaar ©️ {new Date().getFullYear()}</p>
+			<div>
+				<SocialLinkList isCollapsed="true" />
+				<p>Laurens Verhaar ©️ {new Date().getFullYear()}</p>
+			</div>
 		</div>
 	</main>
 </Layout>
@@ -50,12 +65,31 @@ const projects = (await Astro.glob("./projects/*.md")).sort((a, b) => a.frontmat
 	.intro[data-background="squares"] {
 		background-size: 50px 50px;
 
-		background-image: linear-gradient(45deg, transparent 0%, transparent 49.99%, var(--background-color) 50%, transparent 50.01%, transparent 100%), linear-gradient(135deg, transparent 0%, transparent 49.99%, var(--background-color) 50%, transparent 50.01%, transparent 100%);
+		background-image: linear-gradient(
+				45deg,
+				transparent 0%,
+				transparent 49.99%,
+				var(--background-color) 50%,
+				transparent 50.01%,
+				transparent 100%
+			),
+			linear-gradient(
+				135deg,
+				transparent 0%,
+				transparent 49.99%,
+				var(--background-color) 50%,
+				transparent 50.01%,
+				transparent 100%
+			);
 	}
 
 	.intro[data-background="dots"] {
 		background-size: 40px 40px;
-		background-image: radial-gradient(circle, var(--background-color) 1px, rgba(0, 0, 0, 0) 1px);
+		background-image: radial-gradient(
+			circle,
+			var(--background-color) 1px,
+			rgba(0, 0, 0, 0) 1px
+		);
 	}
 	.intro[data-background="plusses"] {
 		background-size: 40px 40px;
@@ -91,6 +125,7 @@ const projects = (await Astro.glob("./projects/*.md")).sort((a, b) => a.frontmat
 	}
 
 	.projects {
+		max-width: 1250px;
 		margin-inline: auto;
 		margin-block: 3rem;
 		padding: 1rem;
@@ -110,13 +145,14 @@ const projects = (await Astro.glob("./projects/*.md")).sort((a, b) => a.frontmat
 
 	.footer {
 		background-color: #131313;
+	}
+	.footer > div {
+		max-width: 1250px;
 		padding: 1rem;
+		margin-inline: auto;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-	}
-	.projects {
-		max-width: 1250px;
 	}
 </style>
 
@@ -132,13 +168,19 @@ const projects = (await Astro.glob("./projects/*.md")).sort((a, b) => a.frontmat
 	});
 
 	function updateBackground() {
-		introElement?.setAttribute("data-background", backgrounds[currentBackground % backgrounds.length]);
+		introElement?.setAttribute(
+			"data-background",
+			backgrounds[currentBackground % backgrounds.length]
+		);
 	}
 
 	introElement?.addEventListener("mousemove", (event: MouseEvent) => {
 		const mouseX = event.clientX / (window.innerWidth / 5);
 		const mouseY = event.clientY / (window.innerHeight / 5);
 
-		introElement.style.setProperty("--background-position", `-${mouseX}% -${mouseY}%`);
+		introElement.style.setProperty(
+			"--background-position",
+			`-${mouseX}% -${mouseY}%`
+		);
 	});
 </script>
